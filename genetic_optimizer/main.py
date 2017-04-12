@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 class GeneticOptimizer:
     def __init__(self, function_to_be_optimized,
+                 dimensionality,
                  search_space_boundaries,
                  population_size=1000,
                  crossover_rate=0.3,
@@ -20,6 +21,9 @@ class GeneticOptimizer:
         ----------
         function_to_be_optimized: function
             Function to be optimized
+        
+        dimensionality: int
+            Input-Dimensionality of the function to be optimized
             
         search_space_boundaries: array_like
             The space in which initial solutions will be placed
