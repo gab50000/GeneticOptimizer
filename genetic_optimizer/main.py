@@ -9,6 +9,33 @@ class GeneticOptimizer:
                  crossover_rate=0.3,
                  mutation_rate=0.3,
                  mutation_factor=1.0):
+        """
+        Genetic Optimizer
+        
+        Optimizes a function R^n -> R using a stochastical parameter search.
+        This involves crossover where new solutions are created from linear combinations
+        of old ones, and mutation.
+        
+        Parameters
+        ----------
+        function_to_be_optimized: function
+            Function to be optimized
+            
+        search_space_boundaries: array_like
+            The space in which initial solutions will be placed
+            
+        population_size: int
+            Number of simultaneous trial parameters
+            
+        crossover_rate: float
+            Ratio of solutions that will be created as a linear combination of two parent solutions
+            
+        mutation_rate: float
+            Ratio of solutions that will be mutated by adding a normal distributed random vector
+        
+        mutation_factor: float
+            Determines by how much mutation will change an existing parameter
+        """
 
         self.func = function_to_be_optimized
         self.population_size = population_size
