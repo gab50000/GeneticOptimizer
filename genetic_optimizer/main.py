@@ -7,7 +7,8 @@ class GeneticOptimizer:
                  search_space_boundaries,
                  population_size=1000,
                  crossover_rate=0.3,
-                 mutation_rate=0.3):
+                 mutation_rate=0.3,
+                 mutation_factor=1.0):
 
         self.func = function_to_be_optimized
         self.population_size = population_size
@@ -15,6 +16,7 @@ class GeneticOptimizer:
         self.crossover_number = int(crossover_rate * population_size)
         self.mutation_rate = mutation_rate
         self.mutation_number = int(mutation_rate * population_size)
+        self.mutation_factor = mutation_factor
 
         search_space_length = np.squeeze(np.diff(search_space_boundaries))
         self.population = np.random.rand(self.population_size, *search_space_length.shape)
