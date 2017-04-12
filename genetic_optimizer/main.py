@@ -49,14 +49,14 @@ class GeneticOptimizer:
         self.mutation_number = int(mutation_rate * population_size)
         self.mutation_factor = mutation_factor
 
+        search_space_boundaries = np.reshape(search_space_boundaries, (-1, 2))
         search_space_length = np.squeeze(np.diff(search_space_boundaries))
-        self.population = np.random.rand(self.population_size, *search_space_length.shape)
+        self.population = np.random.rand(self.population_size, dimensionality)
         self.population *= search_space_length
-        
-        self.population += search_space_boundaries[None, :, 0]
+        self.population += search_space_boundaries[:, 0]
 
     def normalized_fitness(self):
-        fitness_values = self.func(self.population)
+        fitness_values = np.apply_along_axis(self.func, 1, self.population)
         fitness_values = np.where(fitness_values < 0, 1 - fitness_values, 1 / (1 + fitness_values))
         return fitness_values / fitness_values.sum()
 
