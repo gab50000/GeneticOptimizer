@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.optimize import rosen
 
 
 class GeneticOptimizer:
@@ -79,19 +80,21 @@ class GeneticOptimizer:
 
 def main():
     def testfun(x):
-        return np.sum(x**2, axis=-1)
+        return x[0]**2 + x[1]**2 * np.sin(x)
 
-    go = GeneticOptimizer(testfun, np.array([[-5, 5], [-10, 10]]), population_size=100)
+    lim = [-100, 100]
+    go = GeneticOptimizer(rosen, 2, lim, population_size=1000)
     for i in range(1000):
         fitness = go.normalized_fitness()
         go.crossover(fitness)
         print(np.max(fitness))
         print(go.population[np.argmax(fitness)])
-        if i % 10 == 0:
-            plt.hist(fitness)
-            plt.show()
+        #x, y = go.population.T
+        #plt.scatter(x, y)
+        #plt.xlim(lim)
+        #plt.ylim(lim)
+        #plt.show()
 
 
 if __name__ == "__main__":
     main()
-    
