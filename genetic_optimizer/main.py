@@ -73,8 +73,8 @@ class GeneticOptimizer:
         self.population[sorted_args[:self.crossover_number]] = \
             (a * self.population[parent1] + b * self.population[parent2]) / (a + b)
 
-    def mutate(self):
-        pass
+    def mutate(self, selection):
+        self.population[selection] += np.random.normal(loc=0, scale=self.mutation_factor)
 
 
 def main():
