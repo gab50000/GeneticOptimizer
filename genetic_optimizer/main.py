@@ -21,15 +21,31 @@ class GeneticOptimizer:
         
         self.population += search_space_boundaries[None, :, 0]
 
-    def crossover(self):
+    def normalized_fitness(self):
+        fitness_values = self.func(self.population)
+        return fitness_values / fitness_values.sum()
+
+    def crossover(self, normalized_fitness):
+        sorted_args = np.argsort(normalized_fitness)
+        cumsum = np.cumsum(normalized_fitness[sorted_args])
+
+        trial = np.random.random_sample(normalized_fitness.shape)
+
+        print(sorted_args)
+        print(cumsum)
+        print(crossover_len)
+
+    def mutate(self):
         pass
 
 
 def main():
     def testfun(x):
-        return x[0]**2 + x[1]**2
+        return np.sum(x**2, axis=-1)
 
     go = GeneticOptimizer(testfun, np.array([[-5, 5], [-10, 10]]), population_size=10)
+    fitness = go.normalized_fitness()
+    go.crossover(fitness)
 
 
 if __name__ == "__main__":
