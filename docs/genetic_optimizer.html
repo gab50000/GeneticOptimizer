@@ -53,6 +53,27 @@
 <dt id="genetic_optimizer.main.GeneticOptimizer">
 <em class="property">class </em><code class="descclassname">genetic_optimizer.main.</code><code class="descname">GeneticOptimizer</code><span class="sig-paren">(</span><em>function_to_be_optimized</em>, <em>dimensionality</em>, <em>search_space_boundaries</em>, <em>population_size=1000</em>, <em>crossover_rate=0.3</em>, <em>mutation_rate=0.3</em>, <em>mutation_factor=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/genetic_optimizer/main.html#GeneticOptimizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#genetic_optimizer.main.GeneticOptimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Genetic Optimizer</p>
+<p>Optimizes a function R^n -&gt; R using a stochastical parameter search.
+This involves crossover where new solutions are created from linear combinations
+of old ones, and mutation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>function_to_be_optimized</strong> (<em>function</em>) &#8211; Function to be optimized</li>
+<li><strong>dimensionality</strong> (<em>int</em>) &#8211; Input-Dimensionality of the function to be optimized</li>
+<li><strong>search_space_boundaries</strong> (<em>array_like</em>) &#8211; The space in which initial solutions will be placed</li>
+<li><strong>population_size</strong> (<em>int</em>) &#8211; Number of simultaneous trial parameters</li>
+<li><strong>crossover_rate</strong> (<em>float</em>) &#8211; Ratio of solutions that will be created as a linear combination of two parent solutions</li>
+<li><strong>mutation_rate</strong> (<em>float</em>) &#8211; Ratio of solutions that will be mutated by adding a normal distributed random vector</li>
+<li><strong>mutation_factor</strong> (<em>float</em>) &#8211; Determines by how much mutation will change an existing parameter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="genetic_optimizer.main.GeneticOptimizer.crossover">
 <code class="descname">crossover</code><span class="sig-paren">(</span><em>normalized_fitness</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/genetic_optimizer/main.html#GeneticOptimizer.crossover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#genetic_optimizer.main.GeneticOptimizer.crossover" title="Permalink to this definition">¶</a></dt>
