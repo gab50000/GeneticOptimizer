@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import rosen
 
 
 class GeneticOptimizer:
@@ -11,7 +10,7 @@ class GeneticOptimizer:
                  crossover_rate=0.3,
                  mutation_rate=0.3,
                  mutation_factor=1.0):
-        """
+        """ 
         Genetic Optimizer
         
         Optimizes a function R^n -> R using a stochastical parameter search.
@@ -20,6 +19,7 @@ class GeneticOptimizer:
         
         Parameters
         ----------
+        
         function_to_be_optimized: function
             Function to be optimized
         
@@ -59,42 +59,27 @@ class GeneticOptimizer:
     def normalized_fitness(self):
         fitness_values = np.apply_along_axis(self.func, 1, self.population)
         fitness_values = np.where(fitness_values < 0, 1 - fitness_values, 1 / (1 + fitness_values))
-        return fitness_values / fitness_values.sum()
+        sorted_indices = np.argsort(fitness_values)
+        return sorted_indices, fitness_values / fitness_values.sum()
 
-    def crossover(self, normalized_fitness):
+    def _crossover(self, sorted_indices, normalized_fitness):
         # Sort ascending
-        sorted_args = np.argsort(normalized_fitness)
-        cumsum = np.cumsum(normalized_fitness[sorted_args])
+        cumsum = np.cumsum(normalized_fitness[sorted_indices])
 
         trial = np.random.uniform(0, cumsum[-1], size=self.crossover_number*2)
         parent1, parent2 = np.split(np.searchsorted(cumsum, trial), 2)
 
         # Generate offspring
         a, b = np.random.rand(2)
-        self.population[sorted_args[:self.crossover_number]] = \
+        self.population[sorted_indices[:self.crossover_number]] = \
             (a * self.population[parent1] + b * self.population[parent2]) / (a + b)
 
-    def mutate(self, selection):
+    def _mutate(self, sorted_indices, normalized_fitness):
+        selection = sorted_indices[self.crossover_number:self.crossover_number+self.mutation_number]
         self.population[selection] += np.random.normal(loc=0, scale=self.mutation_factor)
 
+    def optimization_step(self):
+        sorted_indices, fitness = self.normalized_fitness()
 
-def main():
-    def testfun(x):
-        return x[0]**2 + x[1]**2 * np.sin(x)
-
-    lim = [-100, 100]
-    go = GeneticOptimizer(rosen, 2, lim, population_size=1000)
-    for i in range(1000):
-        fitness = go.normalized_fitness()
-        go.crossover(fitness)
-        print(np.max(fitness))
-        print(go.population[np.argmax(fitness)])
-        #x, y = go.population.T
-        #plt.scatter(x, y)
-        #plt.xlim(lim)
-        #plt.ylim(lim)
-        #plt.show()
-
-
-if __name__ == "__main__":
-    main()
+        self._crossover(sorted_indices, fitness)
+        self._mutate(sorted_indices, fitness)
